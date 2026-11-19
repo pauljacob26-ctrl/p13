@@ -1,0 +1,836 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOLAR SPHERE - Explore the Universe</title>
+
+<style>
+:root {
+    --bg: #071426;
+    --primary: #00bcd4;
+    --secondary: #102b46;
+    --accent: #ffb703;
+    --text: #f1f5f9;
+    --card: #112b45;
+}
+
+* {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+header {
+    background: #06101f;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid var(--primary);
+}
+
+header h1 {
+    color: var(--primary);
+    margin: 0;
+    font-size: 35px;
+    letter-spacing: 3px;
+}
+
+header p {
+    color: #cbd5e1;
+}
+
+nav {
+    background: #102b46;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 12px;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: var(--accent);
+}
+
+.announcement {
+    background: #083344;
+    color: #67e8f9;
+    text-align: center;
+    padding: 12px;
+    font-weight: bold;
+}
+
+.controls {
+    text-align: center;
+    padding: 8px;
+}
+
+button {
+    background: var(--primary);
+    color: #00131c;
+    border: none;
+    padding: 10px 16px;
+    margin: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: var(--accent);
+}
+
+.hero {
+    text-align: center;
+    padding: 35px 20px;
+    background: linear-gradient(120deg, #071426, #123b5d);
+}
+
+.hero h2 {
+    font-size: 34px;
+    color: var(--accent);
+}
+
+.banner {
+    width: 90%;
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 2px solid var(--primary);
+}
+
+.container {
+    width: 92%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+section {
+    padding: 35px 0;
+}
+
+section h2 {
+    text-align: center;
+    color: var(--primary);
+    margin-bottom: 25px;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #1e4968;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+}
+
+.card h3 {
+    color: var(--accent);
+}
+
+.card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.gallery img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.gallery img:hover {
+    transform: scale(1.04);
+}
+
+.media-box {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+audio, video {
+    width: 100%;
+    margin-top: 10px;
+}
+
+iframe {
+    width: 100%;
+    border: 2px solid var(--primary);
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border: 1px solid #64748b;
+    background: #f8fafc;
+    color: #111827;
+}
+
+form {
+    max-width: 600px;
+    margin: auto;
+    background: var(--card);
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.result {
+    background: #083344;
+    padding: 15px;
+    margin-top: 12px;
+    border-radius: 8px;
+    color: #a5f3fc;
+}
+
+footer {
+    background: #06101f;
+    text-align: center;
+    padding: 25px;
+    margin-top: 30px;
+    color: #cbd5e1;
+}
+
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 500;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 85%;
+    border: 3px solid var(--primary);
+    border-radius: 10px;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 35px;
+    color: white;
+    cursor: pointer;
+}
+
+.task-item {
+    background: #1e4968;
+    margin: 8px 0;
+    padding: 12px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media(max-width:600px) {
+    header h1 {
+        font-size: 25px;
+    }
+
+    .hero h2 {
+        font-size: 25px;
+    }
+
+    nav {
+        gap: 12px;
+    }
+
+    nav a {
+        font-size: 13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>🌌 SOLAR SPHERE</h1>
+    <p>Discover the Wonders of Our Universe</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#planets">Planets</a>
+    <a href="#about">About</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#media">Media</a>
+    <a href="#resources">Resources</a>
+    <a href="#registration">Register</a>
+    <a href="#tools">Tools</a>
+</nav>
+
+<div class="announcement" id="announcement">
+    🚀 Welcome to Solar Sphere! Explore planets, stars and galaxies!
+</div>
+
+<div class="controls">
+    <button onclick="pauseAnnouncement()">Pause</button>
+    <button onclick="playAnnouncement()">Play</button>
+    <button onclick="restartAnnouncement()">Restart</button>
+</div>
+
+<!-- HOME -->
+<section class="hero" id="home">
+    <h2>Explore the Solar System</h2>
+    <p>Journey through space and discover the mysteries of the universe.</p>
+
+    <img class="banner"
+         src="art.jpeg"
+         alt="Solar system and planets">
+</section>
+
+<div class="container">
+
+<!-- PLANETS -->
+<section id="planets">
+    <h2>Our Solar System</h2>
+
+    <div class="card-container">
+
+        <div class="card">
+            <img src="img1.png" alt="Mercury">
+            <h3>Mercury</h3>
+            <p>The smallest planet and closest to the Sun.</p>
+        </div>
+
+        <div class="card">
+            <img src="img2.png" alt="Venus">
+            <h3>Venus</h3>
+            <p>The hottest planet in our solar system.</p>
+        </div>
+
+        <div class="card">
+            <img src="img3.png" alt="Earth">
+            <h3>Earth</h3>
+            <p>Our home planet, known for supporting life.</p>
+        </div>
+
+        <div class="card">
+            <img src="img4.png" alt="Mars">
+            <h3>Mars</h3>
+            <p>The Red Planet, known for its reddish surface.</p>
+        </div>
+
+        <div class="card">
+            <img src="img5.png" alt="Jupiter">
+            <h3>Jupiter</h3>
+            <p>The largest planet in the solar system.</p>
+        </div>
+
+        <div class="card">
+            <img src="img6.png" alt="Saturn">
+            <h3>Saturn</h3>
+            <p>Famous for its beautiful ring system.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+    <h2>About Solar Sphere</h2>
+    <div class="card">
+        <p>
+            Solar Sphere is an educational website designed to introduce
+            visitors to the solar system and outer space. It provides
+            information about planets, space exploration, celestial objects
+            and astronomy.
+        </p>
+        <p>
+            Explore interactive sections, images, videos and educational
+            resources to learn more about our universe.
+        </p>
+    </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+    <h2>Planet Gallery</h2>
+
+    <div class="gallery">
+        <img src="img1.png" alt="Mercury" onclick="openImage(this.src)">
+        <img src="img2.png" alt="Venus" onclick="openImage(this.src)">
+        <img src="img3.png" alt="Earth" onclick="openImage(this.src)">
+        <img src="img4.png" alt="Mars" onclick="openImage(this.src)">
+        <img src="img5.png" alt="Jupiter" onclick="openImage(this.src)">
+        <img src="img6.png" alt="Saturn" onclick="openImage(this.src)">
+    </div>
+</section>
+
+<div class="lightbox" id="lightbox" onclick="closeImage()">
+    <span class="close">&times;</span>
+    <img id="lightboxImage" src="" alt="Selected planet">
+</div>
+
+<!-- MEDIA -->
+<section id="media">
+    <h2>Space Media Centre</h2>
+
+    <div class="media-box">
+        <h3>Space Background Audio</h3>
+        <audio controls loop>
+            <source src="audio.mpeg" type="audio/mpeg">
+            Your browser does not support audio.
+        </audio>
+    </div>
+
+    <div class="media-box">
+        <h3>Solar System Video</h3>
+        <video controls>
+            <source src="video.mp4" type="video/mp4">
+            Your browser does not support video.
+        </video>
+    </div>
+
+    <div class="media-box">
+        <h3>Space Exploration YouTube Video</h3>
+        <iframe
+            height="400"
+            src="https://www.youtube.com/embed/D52YCwKeu6s"
+            title="Space Exploration Video"
+            allowfullscreen>
+        </iframe>
+    </div>
+</section>
+
+<!-- RESOURCES -->
+<section id="resources">
+    <h2>Learning Resources</h2>
+
+    <div class="media-box">
+        <h3>Solar System PDF Guide</h3>
+        <iframe
+            src="solar-system.pdf"
+            height="400"
+            title="Solar System Guide">
+        </iframe>
+    </div>
+
+    <div class="media-box">
+        <h3>NASA Kennedy Space Center</h3>
+        <iframe
+            src="https://www.google.com/maps?q=NASA+Kennedy+Space+Center&output=embed"
+            height="400"
+            title="NASA Kennedy Space Center Location"
+            loading="lazy">
+        </iframe>
+    </div>
+</section>
+
+<!-- SPACE UPDATES -->
+<section id="updates">
+    <h2>Space Discoveries</h2>
+
+    <div class="card-container">
+        <div class="card">
+            <h3>Moon Exploration</h3>
+            <p>Discover how scientists explore the Moon and study its surface.</p>
+        </div>
+
+        <div class="card">
+            <h3>Mars Missions</h3>
+            <p>Robotic missions help scientists understand the Red Planet.</p>
+        </div>
+
+        <div class="card">
+            <h3>Deep Space</h3>
+            <p>Telescopes help us observe distant stars and galaxies.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule">
+    <h2>Space Learning Schedule</h2>
+
+    <div class="media-box">
+        <table border="1" width="100%" cellpadding="12"
+               style="border-collapse:collapse;text-align:center;">
+            <tr>
+                <th>Day</th>
+                <th>Topic</th>
+                <th>Activity</th>
+            </tr>
+            <tr>
+                <td>Monday</td>
+                <td>Solar System</td>
+                <td>Learn about planets</td>
+            </tr>
+            <tr>
+                <td>Tuesday</td>
+                <td>Stars</td>
+                <td>Study star formation</td>
+            </tr>
+            <tr>
+                <td>Wednesday</td>
+                <td>Galaxies</td>
+                <td>Explore galaxies</td>
+            </tr>
+            <tr>
+                <td>Thursday</td>
+                <td>Space Missions</td>
+                <td>Learn about exploration</td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<!-- REGISTRATION -->
+<section id="registration">
+    <h2>Space Explorer Registration</h2>
+
+    <form id="registrationForm">
+        <label>Full Name</label>
+        <input type="text" id="name" placeholder="Enter your name" required>
+
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+
+        <label>Age</label>
+        <input type="number" id="age" min="5" max="100"
+               placeholder="Enter your age" required>
+
+        <label>Choose Your Favourite Planet</label>
+        <select id="planet" required>
+            <option value="">Select a planet</option>
+            <option>Mercury</option>
+            <option>Venus</option>
+            <option>Earth</option>
+            <option>Mars</option>
+            <option>Jupiter</option>
+            <option>Saturn</option>
+            <option>Uranus</option>
+            <option>Neptune</option>
+        </select>
+
+        <label>Why are you interested in space?</label>
+        <textarea id="reason" rows="4"
+                  placeholder="Write your answer"></textarea>
+
+        <button type="submit">Register</button>
+
+        <div id="registrationResult" class="result"></div>
+    </form>
+</section>
+
+<!-- CALCULATOR -->
+<section id="calculator">
+    <h2>Space Mission Cost Calculator</h2>
+
+    <div class="media-box">
+        <label>Select Mission</label>
+
+        <select id="mission">
+            <option value="500">Satellite Mission - ₹500</option>
+            <option value="1000">Moon Mission - ₹1000</option>
+            <option value="2000">Mars Mission - ₹2000</option>
+            <option value="3000">Deep Space Mission - ₹3000</option>
+        </select>
+
+        <label>Number of Participants</label>
+        <input type="number" id="participants" min="1" value="1">
+
+        <button onclick="calculateCost()">Calculate Cost</button>
+
+        <div id="costResult" class="result"></div>
+    </div>
+</section>
+
+<!-- DOM INTERACTION -->
+<section id="tools">
+    <h2>Interactive Space Lab</h2>
+
+    <div class="media-box">
+        <h3>Change Space Message</h3>
+
+        <p id="spaceMessage">Welcome to the Solar Sphere Space Lab!</p>
+
+        <button onclick="changeMessage()">Change Message</button>
+        <button onclick="changeBackground()">Change Background</button>
+        <button onclick="resetLab()">Reset</button>
+    </div>
+</section>
+
+<!-- API -->
+<section id="api">
+    <h2>Space Explorer API Lab</h2>
+
+    <div class="media-box">
+        <p>Load sample information from a public API.</p>
+
+        <button onclick="loadAPI()">Load Data</button>
+
+        <div id="apiResult" class="result">
+            API data will appear here.
+        </div>
+    </div>
+</section>
+
+<!-- TASK MANAGER -->
+<section id="tasks">
+    <h2>Space Mission Task Manager</h2>
+
+    <div class="media-box">
+        <input type="text" id="taskInput"
+               placeholder="Enter a space mission task">
+
+        <button onclick="addTask()">Add Task</button>
+
+        <div id="taskList"></div>
+    </div>
+</section>
+
+</div>
+
+<footer>
+    <h3>🌌 SOLAR SPHERE</h3>
+    <p>Explore Beyond the Stars</p>
+    <p>© 2026 Solar Sphere. All Rights Reserved.</p>
+</footer>
+
+<script>
+
+// ANNOUNCEMENT CONTROLS
+const announcement = document.getElementById("announcement");
+let announcementText = announcement.innerText;
+let announcementTimer;
+
+function playAnnouncement() {
+    announcement.innerText = announcementText;
+}
+
+function pauseAnnouncement() {
+    announcement.innerText = "Announcement paused.";
+}
+
+function restartAnnouncement() {
+    announcement.innerText = announcementText;
+}
+
+// IMAGE LIGHTBOX
+function openImage(src) {
+    document.getElementById("lightbox").style.display = "flex";
+    document.getElementById("lightboxImage").src = src;
+}
+
+function closeImage() {
+    document.getElementById("lightbox").style.display = "none";
+}
+
+// REGISTRATION FORM
+document.getElementById("registrationForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    let name = document.getElementById("name").value;
+    let email = document.getElementById("email").value;
+    let age = document.getElementById("age").value;
+    let planet = document.getElementById("planet").value;
+
+    if (age < 5 || age > 100) {
+        alert("Please enter a valid age.");
+        return;
+    }
+
+    document.getElementById("registrationResult").innerHTML =
+        "Registration Successful!<br>" +
+        "Welcome " + name + "!<br>" +
+        "Email: " + email + "<br>" +
+        "Favourite Planet: " + planet;
+
+});
+
+// COST CALCULATOR
+function calculateCost() {
+
+    let mission = Number(document.getElementById("mission").value);
+    let participants = Number(document.getElementById("participants").value);
+
+    if (participants < 1 || !Number.isInteger(participants)) {
+        alert("Enter a valid number of participants.");
+        return;
+    }
+
+    let total = mission * participants;
+
+    document.getElementById("costResult").innerHTML =
+        "Total Mission Cost: ₹" + total;
+}
+
+// DOM INTERACTION
+function changeMessage() {
+
+    document.getElementById("spaceMessage").innerHTML =
+        "Amazing! You are exploring the mysteries of the universe!";
+}
+
+function changeBackground() {
+
+    document.getElementById("spaceMessage").style.background =
+        "#164e63";
+
+    document.getElementById("spaceMessage").style.padding =
+        "15px";
+
+    document.getElementById("spaceMessage").style.borderRadius =
+        "8px";
+}
+
+function resetLab() {
+
+    document.getElementById("spaceMessage").innerHTML =
+        "Welcome to the Solar Sphere Space Lab!";
+
+    document.getElementById("spaceMessage").style.background =
+        "transparent";
+}
+
+// FETCH API
+async function loadAPI() {
+
+    let result = document.getElementById("apiResult");
+
+    result.innerHTML = "Loading data...";
+
+    try {
+
+        let response = await fetch(
+            "https://jsonplaceholder.typicode.com/posts/1"
+        );
+
+        let data = await response.json();
+
+        result.innerHTML =
+            "<b>Post Title:</b> " + data.title +
+            "<br><br><b>Content:</b> " + data.body;
+
+    } catch (error) {
+
+        result.innerHTML = "Unable to load data. Please try again.";
+
+    }
+}
+
+// TASK MANAGER WITH LOCAL STORAGE
+let tasks = JSON.parse(localStorage.getItem("spaceTasks")) || [];
+
+function displayTasks() {
+
+    let taskList = document.getElementById("taskList");
+
+    taskList.innerHTML = "";
+
+    tasks.forEach(function(task, index) {
+
+        let div = document.createElement("div");
+
+        div.className = "task-item";
+
+        let span = document.createElement("span");
+        span.textContent = task;
+
+        let button = document.createElement("button");
+        button.textContent = "Delete";
+
+        button.onclick = function() {
+            deleteTask(index);
+        };
+
+        div.appendChild(span);
+        div.appendChild(button);
+
+        taskList.appendChild(div);
+
+    });
+
+}
+
+function addTask() {
+
+    let input = document.getElementById("taskInput");
+
+    let task = input.value.trim();
+
+    if (task === "") {
+        alert("Please enter a task.");
+        return;
+    }
+
+    tasks.push(task);
+
+    localStorage.setItem("spaceTasks", JSON.stringify(tasks));
+
+    input.value = "";
+
+    displayTasks();
+
+}
+
+function deleteTask(index) {
+
+    tasks.splice(index, 1);
+
+    localStorage.setItem("spaceTasks", JSON.stringify(tasks));
+
+    displayTasks();
+
+}
+
+// DISPLAY SAVED TASKS
+displayTasks();
+
+</script>
+
+</body>
+</html>
